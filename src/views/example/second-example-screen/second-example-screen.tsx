@@ -1,6 +1,8 @@
 import * as React from "react"
 import { View, Image, ViewStyle, TextStyle, ImageStyle, SafeAreaView } from "react-native"
 import { NavigationScreenProps } from "react-navigation"
+import KeyEvent from "react-native-keyevent"
+
 import { Screen } from "../../shared/screen"
 import { Text } from "../../shared/text"
 import { Button } from "../../shared/button"
@@ -75,8 +77,29 @@ const HEART: ImageStyle = {
 }
 
 export interface SecondExampleScreenProps extends NavigationScreenProps<{}> {}
+interface State {
+  keyEvent: string
+}
 
-export class SecondExampleScreen extends React.Component<SecondExampleScreenProps, {}> {
+export class SecondExampleScreen extends React.Component<SecondExampleScreenProps, State> {
+  public state: State
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      keyEvent: "bloup",
+    }
+  }
+  componentDidMount() {
+    KeyEvent.onKeyDownListener((keyEvent) => {
+      this.setState({keyEvent: keyEvent.keyCode})
+      console.tron.log(`onKeyDown keyCode: ${keyEvent.keyCode}`)
+      console.tron.log(`Action: ${keyEvent.action}`)
+    })
+  }
+  componentWillUnmount() {
+    KeyEvent.removeKeyDownListener()
+  }
   goBack = () => this.props.navigation.goBack(null)
 
   demoReactotron = async () => {
@@ -139,6 +162,7 @@ export class SecondExampleScreen extends React.Component<SecondExampleScreenProp
                 tx="secondExampleScreen.reactotron"
                 onPress={this.demoReactotron}
                 />
+              <Text>{this.state.keyEvent}</Text>
             </View>
             <Image source={logoIgnite} style={IGNITE} />
             <View style={LOVE_WRAPPER}>
