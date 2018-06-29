@@ -95,7 +95,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.keysapp"
@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-keyevent')
     compile project(':react-native-splash-screen')
     compile project(':react-native-keychain')
     compile project(':react-native-i18n')
